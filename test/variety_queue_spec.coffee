@@ -61,7 +61,7 @@ describe 'Variety Queue', ->
       expect(@queue._timeSinceLastPop['dog']).to.equal 0
       expect(@queue._timeSinceLastPop['cat']).to.equal 1
 
-    it.only 'should re-order for variety', ->
+    it 'should re-order for variety', ->
       expect(@queue.pop().index).to.equal 2 # 1st cat
       expect(@queue.pop().index).to.equal 0 # 1st dog
       expect(@queue.pop().index).to.equal 3 # 2nd cat

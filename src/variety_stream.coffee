@@ -4,6 +4,9 @@ VarietyQueue = require './variety_queue'
 # A pseudo-stream which can feed input (via a pipe) to a stream which applies
 # backpressure. It must implement `_identify` (see VarietyQueue for usage) and
 # `_next` to generate a new item.
+#
+# NOTE: In the case that the `_next` call fails, it still MUST invoke the
+# callback with an empty array.
 class VarietyStream
 
   constructor: (@lowWatermark) ->
@@ -26,8 +29,12 @@ class VarietyStream
 
       if not writing
         value = queue.pop()
-        unless value? then return # TODO: Tick again?
-        stream.write(value, tick)
+        unless value? then return
+
+        writing = true
+        stream.write value, ->
+          writing = false
+          tick()
 
     tick()
 

@@ -13,7 +13,7 @@ class SlowReader extends Transform
 
   _transform: (o, enc, callback) ->
     console.log 'SlowReader peeping', String(o)
-    setTimeout(callback, 200)
+    setTimeout(callback, 100)
 
 
 class NumberStream extends VarietyStream
@@ -28,7 +28,7 @@ class NumberStream extends VarietyStream
     @n += 1
     value = String(@n)
     ticked = => callback([value, value, value])
-    setTimeout(ticked, 100)
+    setTimeout(ticked, 10)
 
 
 describe.only 'Variety Pipe', ->

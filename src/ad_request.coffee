@@ -27,7 +27,7 @@ class AdRequest
     device_id:          @config.deviceId
     direct_connection:  @config.directConnection
     display_area:       @_displayArea()
-    display_time:       Math.floor(new Date().getTime() / 1000)
+    display_time:       @_displayTime()
     latitude:           @config.latitude
     longitude:          @config.longitude
     network_id:         @config.networkId
@@ -62,6 +62,16 @@ class AdRequest
     }
 
   ]
+
+  # In the rare case that a single campaign is pacing at the same frequency it's
+  # being played (1 spot per 30s, for example), the last screen that played the
+  # ad will request at exactly the right time to get the next available
+  # impression.
+  _displayTime: ->
+    nowSec = new Date().getTime() / 1000
+    futureSec = Math.random() * 60
+
+    Math.round(nowSec + futureSec)
 
 
 module.exports = AdRequest

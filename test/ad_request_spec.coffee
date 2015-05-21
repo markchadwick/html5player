@@ -60,10 +60,11 @@ describe 'AdRequest', ->
       body = @request.body()
       expect(body.direct_connection).to.be.false
 
-    it 'should have display_time as current unix time', ->
-      now  = Math.floor(new Date().getTime() / 1000)
+    it 'should have display_time between now and 1m from now', ->
+      now    = Math.floor(new Date().getTime() / 1000)
+      future = now + 61
       body = @request.body()
-      expect(body.display_time).to.be.within(now - 1, now + 1)
+      expect(body.display_time).to.be.within(now, future)
 
     it 'should have the display_area array', ->
       displayArea = @request.body().display_area
